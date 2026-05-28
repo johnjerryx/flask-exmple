@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h3 class="text-center mb-3">Login</h3>
+
+                <form method="POST" action="{{ url_for('user_login_post') }}">
+                    {{ form.csrf_token }}
+
+                    <input class="form-control mb-2" name="username" placeholder="Username">
+                    {% if form.username.errors %}
+                        <div class="text-danger pb-2">{{ form.username.errors[0] }}</div>
+                    {% endif %}
+
+                    <input class="form-control mb-3" type="password" name="password" placeholder="Password">
+                    {% if form.password.errors %}
+                        <div class="text-danger pb-2">{{ form.password.errors[0] }}</div>
+                    {% endif %}
+
+                    <button class="btn btn-primary w-100">Login</button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h3 class="text-center mb-3">Register</h3>
+
+                <form method="POST">
+                    {{ form.csrf_token() }}
+
+                    <input class="form-control" name="{{ form.username.name }}" placeholder="Username">
+                    {% if form.username.errors %}
+                        <div class="text-danger pb-2">{{ form.username.errors[0] }}</div>
+                    {% endif %}
+
+                    <input class="form-control" name="{{ form.password.name }}" type="password" placeholder="Password">
+                    {% if form.password.errors %}
+                        <div class="text-danger pb-2">{{ form.password.errors[0] }}</div>
+                    {% endif %}
+
+                    <input class="form-control" name="{{ form.password_confirmation.name }}" type="password" placeholder="Confirm Password">
+                    {% if form.password_confirmation.errors %}
+                        <div class="text-danger pb-2">{{ form.password_confirmation.errors[0] }}</div>
+                    {% endif %}
+                    <button class="btn btn-success">Register</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

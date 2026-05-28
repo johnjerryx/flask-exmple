@@ -1,0 +1,26 @@
+services:
+  web:
+    environment:
+      - CELERY_BROKER_URL=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASS:-guest}@rabbitmq:5672//
+      - CELERY_BACKEND_URL=redis://redis:6379/0
+
+  celery_worker:
+    environment:
+      - CELERY_BROKER_URL=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASS:-guest}@rabbitmq:5672//
+      - CELERY_BACKEND_URL=redis://redis:6379/0
+
+  tester:
+    build: .
+    volumes:
+      - ./tests:/app/tests
+    env_file: .env
+    environment:
+      - BASE_URL=http://web:5000
+    command: >
+      sh -c "pip install --no-cache-dir pytest requests beautifulsoup4 && 
+             wait-for-it web:5000 -t 120 -- pytest -v -s tests/"
+    depends_on:
+      web:
+        condition: service_started
+      celery_worker:
+        condition: service_started
